@@ -1,0 +1,13 @@
+{
+    "public": {
+        "weatherapi": {
+            "dev": {
+                "url": "http://localhost:3000/weather" 
+            },
+            "prod": {
+                "url": "https://6xpdxiv6w1.execute-api.us-east-1.amazonaws.com/dev/weather"
+            }
+        },
+        "isDevelopment": false
+    }
+}

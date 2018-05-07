@@ -1,0 +1,6 @@
+{
+    "geoapi": {
+        "key": "AIzaSyAtIw3ao6Sd_kRKlQz0_WGLRaJL-wDJ_zs",
+        "url": "https://maps.googleapis.com/maps/api/geocode/json?address="
+    }
+}

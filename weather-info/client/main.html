@@ -1,0 +1,20 @@
+<head>
+  <title>weather-finder</title>
+</head>
+
+<body>
+  <h1>Welcome to Weather Finder</h1>
+
+  {{> zip}}
+</body>
+
+<template name="zip">
+  <input type="number" name="zipcode" id="zipcode" required/>
+  <button>Get weather</button>
+  <div id="weather">
+    {{#if details}}
+    <h4>Weather information for {{zipcode}}</h4>
+    {{#each details}}
+    <div>{{name}} : {{value}}</div> {{/each}} {{/if}}
+  </div>
+</template>
