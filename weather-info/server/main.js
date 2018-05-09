@@ -1,23 +1,28 @@
 import { Meteor } from 'meteor/meteor';
-const check = require('check');
+import get from 'lodash/get';
+
 Meteor.startup(() => {
   // code to run on server at startup
 });
 Meteor.methods({
-  
-  getWeather(zipcode){
+  getWeather(zipcode) {
     check(zipcode, Number)
     try {
-      var geourl = "";
-      if(Meteor.settings.public.isDevelopment){
-        geourl = Meteor.settings.public.weatherapi.dev.url;
-      }else{
-        geourl = Meteor.settings.public.weatherapi.prod.url;
-      }
-      const result = HTTP.call('GET', geourl, {
-        params: {zipcode: zipcode}
+      const geoUrl = Meteor.settings.weatherapi.baseUrl;
+      const result = HTTP.call('GET', geoUrl, {
+        params: { zipcode: zipcode }
       });
-      return result;
+      var weatherInfo = get(result, 'content');
+      if (weatherInfo) {
+        var weatherObj = JSON.parse(weatherInfo).weather;
+        var arrDetails = [];
+        Object.keys(weatherObj).map(item => {
+          arrDetails.push({name: item, value: weatherObj[item]});
+        });
+        return arrDetails;
+      } else {
+        return null;
+      }
     } catch (e) {
       // Got a network error, timeout, or HTTP error in the 400 or 500 range.
       console.log(e);

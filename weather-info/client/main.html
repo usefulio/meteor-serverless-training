@@ -13,8 +13,10 @@
   <button>Get weather</button>
   <div id="weather">
     {{#if details}}
-    <h4>Weather information for {{zipcode}}</h4>
-    {{#each details}}
-    <div>{{name}} : {{value}}</div> {{/each}} {{/if}}
+      <h4>Weather information for {{zipcode}}</h4>
+      {{#each details}}
+        <div>{{name}} : {{value}}</div> 
+      {{/each}} 
+    {{/if}}
   </div>
 </template>

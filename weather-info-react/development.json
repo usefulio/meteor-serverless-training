@@ -1,0 +1,6 @@
+{
+    "public": {},
+    "weatherapi": {
+        "baseUrl": "http://localhost:3000/weather"
+    }
+}

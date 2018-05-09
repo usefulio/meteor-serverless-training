@@ -1,25 +1,29 @@
 
-'use strict';
-const geoInfo = require('./lib/geoInfo');
-const check = require('check');
+import { zipCodeToCoordinates } from './lib/geoInfo';
+import { coordinatesToWeather } from './lib/weatherInfo';
 
-module.exports.getWeatherInfo = (event, context, callback) => {
-  const zipcode = event.queryStringParameters.zipcode;console.log(zipcode);
-  check(zipcode, Number);
-  geoInfo.getGeoFromZip(zipcode).then(function(result){
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: result,
-        input: event,
-      }),
-    };
-    callback(null, response);
-  }).error(function(err){
-    console.log(JSON.stringify(err));
-    callback(err);
-  });
+export const getWeatherInfo = (event, context, callback) => {
+  const { zipcode } = event.queryStringParameters;
+  (async () => {
+    try {
+      const { lat, lng } = await zipCodeToCoordinates(zipcode);
+      if(!lat || !lng){
+        const response = {
+          statusCode: 400
+        };
+        callback(null, response);
+      }
+      const weather = await coordinatesToWeather(lat, lng);
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // callback(null, { message: 'Go Serverless v1.0! Your function executed successfully!', event });
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify({
+          weather
+        }),
+      };
+      callback(null, response);
+    } catch (e) {
+      callback(e);
+    }
+  })();
 };

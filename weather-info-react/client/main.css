@@ -1,0 +1,8 @@
+/* CSS declarations go here */
+button {
+    display: block;
+}
+.error {
+    color: red;
+}
+
